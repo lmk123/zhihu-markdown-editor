@@ -1,13 +1,19 @@
 // TODO 黑名单功能
 // TODO 快捷键支持
 import TinyMDE from 'tinymde'
+import * as marked from 'marked'
 import './style.scss'
 import detectEditor from './detect-zh-editor'
+import * as api from './api'
 
 detectEditor(new URL(window.location.href).pathname === '/write' ? 'zhuanlan' : 'question')
   .then(editor => {
     const mde = new TinyMDE(textarea => {
       textarea.id = 'zhihu-md-tinymde'
+      textarea.addEventListener('change', () => {
+        console.log(textarea.value)
+        api.updateQuestionDraft('64898551', marked(textarea.value))
+      })
       ;(editor.parentElement as Element).appendChild(textarea)
     })
 

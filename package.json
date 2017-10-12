@@ -1,11 +1,17 @@
 {
   "browserslist": [
-    "chrome > 26"
+    "chrome >= 41"
   ],
   "private": true,
   "scripts": {
     "dev": "webpack --watch --config build/webpack.dev.config.js",
     "build": "webpack --config build/webpack.prod.config.js"
+  },
+  "dependencies": {
+    "@types/marked": "^0.3.0",
+    "marked": "^0.3.6",
+    "tinymde": "^0.1.2",
+    "to-markdown": "^3.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.0",
@@ -27,8 +33,5 @@
     "url-loader": "^0.6.2",
     "webpack": "^3.7.1",
     "webpack-merge": "^4.1.0"
-  },
-  "dependencies": {
-    "tinymde": "^0.1.2"
   }
 }
