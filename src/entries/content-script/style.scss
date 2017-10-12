@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+.Dropzone.RichText {
+  display: none;
+}
+
+#zhihu-md-tinymde {
+  resize: none;
+  outline: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  min-height: 118px;
+}
+
