@@ -8,13 +8,13 @@ import * as api from './api'
 
 detectEditor(new URL(window.location.href).pathname === '/write' ? 'zhuanlan' : 'question')
   .then(editor => {
-    const mde = new TinyMDE(textarea => {
-      textarea.id = 'zhihu-md-tinymde'
-      textarea.addEventListener('change', () => {
-        console.log(textarea.value)
+    const textarea = document.createElement('textarea')
+    textarea.id = 'zhihu-md-tinymde'
+    ;(editor.parentElement as Element).appendChild(textarea)
+    const mde = new TinyMDE(textarea, {
+      onSave () {
         api.updateQuestionDraft('64898551', marked(textarea.value))
-      })
-      ;(editor.parentElement as Element).appendChild(textarea)
+      }
     })
 
     function notSupportYet () {
