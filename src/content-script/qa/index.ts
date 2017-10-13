@@ -23,14 +23,15 @@ function parseQA () {
   }
 }
 
-detect(editor => {
+const isAnswered = detect(container => {
   if (!mde) {
     mde = new MDE()
+    mde.textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
   }
 
   if (!info) {
     info = parseQA()
   }
 
-  (editor.parentElement as Element).appendChild(mde.textarea)
+  container.appendChild(mde.textarea)
 })
