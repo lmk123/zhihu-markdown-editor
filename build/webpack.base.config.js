@@ -7,8 +7,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
-    'content-script': './src/entries/content-script/index.ts',
-    background: './src/entries/background/index.ts'
+    'content-script': './src/content-script/index.ts',
+    background: './src/background/index.ts'
   },
   output: {
     path: utils.absolutePath(config.build.assetsRoot),
