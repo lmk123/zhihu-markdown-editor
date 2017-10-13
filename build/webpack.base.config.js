@@ -7,8 +7,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
-    'content-script': './src/content-script/index.ts',
-    background: './src/background/index.ts'
+    'content-qa': './src/content-script/qa/index.ts' //,
+    // background: './src/background/index.ts'
   },
   output: {
     path: utils.absolutePath(config.build.assetsRoot),
@@ -65,11 +65,11 @@ module.exports = {
       // 如果不加下面这一行会报错
       // https://github.com/webpack/webpack/issues/959#issuecomment-276685210
       allChunks: true
-    }),
-    new HtmlWebpackPlugin({
-      chunks: ['background'],
-      filename: 'background.html',
-      minify: utils.htmlMinify
-    })
+    }) // ,
+    // new HtmlWebpackPlugin({
+    //   chunks: ['background'],
+    //   filename: 'background.html',
+    //   minify: utils.htmlMinify
+    // })
   ]
 }

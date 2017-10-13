@@ -8,21 +8,16 @@
     "https://zhuanlan.zhihu.com/*",
     "activeTab"
   ],
-  "background": {
-    "page": "background.html",
-    "persistent": false
-  },
   "content_scripts": [
     {
       "matches": [
-        "https://www.zhihu.com/question/*",
-        "https://zhuanlan.zhihu.com/write"
+        "https://www.zhihu.com/question/*"
       ],
       "css": [
-        "content-script.css"
+        "content-qa.css"
       ],
       "js": [
-        "js/content-script.js"
+        "js/content-qa.js"
       ]
     }
   ]
