@@ -5,12 +5,10 @@ export default class MarkDownEditor extends TinyMDE {
   private removeListeners: () => void
   textarea: HTMLTextAreaElement
 
-  constructor () {
+  constructor (onSave?: () => void) {
     const textarea = document.createElement('textarea')
     textarea.id = 'zhihu-md-tinymde'
-    super(textarea, {
-      onSave () {}
-    })
+    super(textarea, { onSave })
     this.textarea = textarea
 
     // 拦截「插入链接」的表单提交

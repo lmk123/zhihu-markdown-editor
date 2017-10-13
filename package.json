@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/marked": "^0.3.0",
+    "@types/to-markdown": "^3.0.0",
     "marked": "^0.3.6",
     "tinymde": "^0.1.2",
     "to-markdown": "^3.1.0",
