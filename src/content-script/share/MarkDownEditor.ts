@@ -11,7 +11,16 @@ export default class MarkDownEditor extends TinyMDE {
     super(textarea, { onSave })
     this.textarea = textarea
 
-    // 拦截「插入链接」的表单提交
+    // region 输入时自动撑高 textarea 的高度
+    // https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
+    function onInput () {
+      textarea.style.height = 'auto'
+      textarea.style.height = textarea.scrollHeight + 'px'
+    }
+    textarea.addEventListener('input', onInput)
+    // endregion
+
+    // region 拦截「插入链接」的表单提交
     const onSubmit = (event: Event) => {
       const target = event.target as Element
       if (target.matches('.LinkModal-form')) {
@@ -33,10 +42,10 @@ export default class MarkDownEditor extends TinyMDE {
         window.alert('弹层似乎关不掉了，你自己关吧。')
       }
     }
-
     document.addEventListener('submit', onSubmit, true)
+    // endregion
 
-    // 拦截工具栏
+    // region 拦截工具栏
     const map: { [name: string]: () => void } = {
       '粗体': () => this.bold(),
       '斜体': () => this.italic(),
@@ -51,7 +60,6 @@ export default class MarkDownEditor extends TinyMDE {
       '插入分割线': () => this.hr(),
       '清除格式': notSupportYet
     }
-
     const onClick = (event: MouseEvent) => {
       const btn = (event.target as Element).closest('.Editable-toolbar > button[aria-label]')
       if (btn) {
@@ -63,12 +71,13 @@ export default class MarkDownEditor extends TinyMDE {
         }
       }
     }
-
     document.addEventListener('click', onClick, true)
+    // endregion
 
     this.removeListeners = function () {
       document.removeEventListener('submit', onSubmit, true)
       document.removeEventListener('click', onClick, true)
+      textarea.removeEventListener('input', onInput)
     }
   }
 
