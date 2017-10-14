@@ -2,7 +2,7 @@ import ajax from '../share/ajax'
 
 export function getDraft (id: string) {
   return ajax(`/api/v4/questions/${id}/draft?include=question`)
-    .then((res: { content: string }) => res.content)
+    .then((res: { editable_content: string }) => res.editable_content)
 }
 
 export function saveDraft (id: string, content: string) {

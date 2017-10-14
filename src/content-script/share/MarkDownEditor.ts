@@ -49,7 +49,7 @@ export default class MarkDownEditor extends TinyMDE {
     const map: { [name: string]: () => void } = {
       '粗体': () => this.bold(),
       '斜体': () => this.italic(),
-      '标题': () => this.heading(1),
+      '标题': () => this.heading(2),
       '引用块': () => this.quote(),
       '代码块': () => this.blockCode(),
       '有序列表': () => this.ol(),

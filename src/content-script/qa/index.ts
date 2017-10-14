@@ -1,8 +1,8 @@
-import * as toMarkdown from 'to-markdown'
-import * as marked from 'marked'
 import detect from './detect'
 import MDE from '../share/MarkDownEditor'
 import { editAnswer, getDraft, saveDraft } from './api'
+import html2md from '../share/html2md'
+import md2html from '../share/md2html'
 
 type TInfo = {
   id: string
@@ -34,17 +34,16 @@ const isAnswered = detect(container => {
   if (first) {
     first = false
     mde = new MDE(() => {
-      saveDraft(info.id, marked(textarea.value))
+      saveDraft(info.id, md2html(textarea.value))
     })
     textarea = mde.textarea
     textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
     info = parseQA()
     getDraft(info.id).then(content => {
-      // todo 知乎的文本还需要做一些处理
       if (content) {
-        textarea.value = toMarkdown(content)
+        textarea.value = html2md(content)
       } else if (answeredHTML) {
-        textarea.value = toMarkdown(answeredHTML)
+        textarea.value = html2md(answeredHTML)
       }
     })
 
@@ -54,7 +53,7 @@ const isAnswered = detect(container => {
         event.preventDefault()
         event.stopPropagation()
 
-        editAnswer(info.aid as string, marked(textarea.value))
+        editAnswer(info.aid as string, md2html(textarea.value))
       }
     }, true)
   }
