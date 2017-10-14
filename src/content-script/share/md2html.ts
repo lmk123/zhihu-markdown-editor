@@ -34,10 +34,12 @@ zhMarkedRenderer.blockquote = quote => {
 zhMarkedRenderer.strong = text => `<b>${text}</b>`
 zhMarkedRenderer.em = text => `<i>${text}</i>`
 
+const options = {
+  renderer: zhMarkedRenderer,
+  tables: false,
+  sanitize: true
+}
+
 export default function (markDown: string) {
-  return marked(markDown, {
-    renderer: zhMarkedRenderer,
-    tables: false,
-    sanitize: true
-  }).replace(nReg, '')
+  return marked(markDown, options).replace(nReg, '')
 }
