@@ -43,17 +43,24 @@ const isAnswered = detect(container => {
       if (content) {
         textarea.value = html2md(content)
       } else if (answeredHTML) {
-        textarea.value = html2md(answeredHTML)
+        textarea.value = html2md(answeredHTML, true)
       }
     })
 
     // 拦截问题提交
+    // todo 提交不成功，代码没有执行到这里
     document.addEventListener('submit', (event) => {
       if ((event.target as Element).matches('.AnswerForm')) {
         event.preventDefault()
         event.stopPropagation()
-
+        console.log(textarea.value)
         editAnswer(info.aid as string, md2html(textarea.value))
+          .then(content => {
+            const htmlBox = document.querySelector('.CopyrightRichText-richText')
+            if (htmlBox) {
+              htmlBox.innerHTML = content
+            }
+          })
       }
     }, true)
   }

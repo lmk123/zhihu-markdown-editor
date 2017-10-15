@@ -18,5 +18,5 @@ export function editAnswer (aid: string, content: string) {
     method: 'put',
     url: `/api/v4/answers/${aid}`,
     body: JSON.stringify({ content })
-  })
+  }).then((res: { content: string }) => res.content)
 }

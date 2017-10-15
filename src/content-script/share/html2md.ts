@@ -36,6 +36,29 @@ const options = {
   ]
 }
 
-export default function (html: string) {
+export default function (html: string, raw?: boolean) {
+  if (raw) {
+    html = normal(html)
+  }
   return toMarkdown(html, options)
+}
+
+const linkReg = /href="https:\/\/link\.zhihu\.com\/\?target=([^"]+)"/g
+const codeBlockReg = /<div class="highlight"><pre><code class="language-([^"]+?)">([\s\S]*?)<\/code><\/pre><\/div>/g
+const htmlReg = /<\/?[^>]+?>/g
+
+function normal (html: string) {
+  // 去掉知乎的链接前缀
+  html = html.replace(linkReg, (match, link) => {
+    return `href="${decodeURIComponent(link)}"`
+  })
+  // 去掉代码块的 html 结构体
+  html = html.replace(codeBlockReg, (match, lang, code) => {
+    code = code.replace(htmlReg, '')
+    if (code.endsWith('\n')) {
+      code = code.slice(0, -1)
+    }
+    return `<pre lang="${lang}">${code}</pre>`
+  })
+  return html
 }
