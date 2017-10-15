@@ -12,7 +12,6 @@ type TInfo = {
 let mde: MDE
 let textarea: HTMLTextAreaElement
 let info: TInfo
-let answeredHTML: string
 let first = true
 
 const qaReg = /\d+/g
@@ -39,13 +38,6 @@ const isAnswered = detect(container => {
     textarea = mde.textarea
     textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
     info = parseQA()
-    getDraft(info.id).then(content => {
-      if (content) {
-        textarea.value = html2md(content)
-      } else if (answeredHTML) {
-        textarea.value = html2md(answeredHTML, true)
-      }
-    })
 
     // 拦截问题提交
     // todo 提交不成功，代码没有执行到这里
@@ -65,9 +57,17 @@ const isAnswered = detect(container => {
     }, true)
   }
 
+  getDraft(info.id).then(content => {
+    if (content) {
+      textarea.value = html2md(content)
+    } else if (isAnswered) {
+      // todo 获取已回答内容的方式不正确，应该根据「修改」链接的位置来
+      const answeredNode = document.querySelector('.CopyrightRichText-richText')
+      if (answeredNode) {
+        textarea.value = html2md(answeredNode.innerHTML, true)
+      }
+    }
+  })
+
   container.appendChild(textarea)
 })
-
-if (isAnswered) {
-  answeredHTML = (document.querySelector('.CopyrightRichText-richText') as HTMLDivElement).innerHTML
-}
