@@ -1,4 +1,4 @@
-import ajax from '../share/ajax'
+import ajax from '../../share/ajax'
 
 export function getDraft (id: string) {
   return ajax(`/api/v4/questions/${id}/draft?include=question`)
