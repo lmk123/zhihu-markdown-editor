@@ -1,11 +1,16 @@
 import './editor.scss'
 import TinyMDE from 'tinymde'
 
+const toolbarPrefixes: { [type: string]: string | undefined } = {
+  'question': '.QuestionAsk-DetailSection',
+  'answer': '.AnswerForm-editor'
+}
+
 export default class MarkDownEditor extends TinyMDE {
   private removeListeners: () => void
   textarea: HTMLTextAreaElement
 
-  constructor (onSave?: () => void) {
+  constructor (type: string, onSave?: () => void, isQuestion = false) {
     const textarea = document.createElement('textarea')
     textarea.id = 'zhihu-md-tinymde'
     super(textarea, { onSave })
@@ -57,8 +62,10 @@ export default class MarkDownEditor extends TinyMDE {
       '插入分割线': () => this.hr(),
       '清除格式': notSupportYet
     }
+
+    const toolbarSelector = toolbarPrefixes[type] + ' .Editable-toolbar > button[aria-label]'
     const onClick = (event: MouseEvent) => {
-      const btn = (event.target as Element).closest('.Editable-toolbar > button[aria-label]')
+      const btn = (event.target as Element).closest(toolbarSelector)
       if (btn) {
         const label = btn.getAttribute('aria-label') as string
         const func = map[label]

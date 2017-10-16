@@ -32,7 +32,7 @@ function parseQA () {
 
 let initMDE = () => {
   initMDE = () => {}
-  mde = new MDE(() => {
+  mde = new MDE('answer', () => {
     saveDraft(info.id, md2html(textarea.value))
   })
   textarea = mde.textarea
