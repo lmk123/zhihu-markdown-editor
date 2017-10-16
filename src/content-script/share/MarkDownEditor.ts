@@ -12,11 +12,8 @@ export default class MarkDownEditor extends TinyMDE {
     this.textarea = textarea
 
     // region 输入时自动撑高 textarea 的高度
-    // https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
-    function onInput () {
-      textarea.style.height = 'auto'
-      textarea.style.height = textarea.scrollHeight + 'px'
-    }
+    const onInput = () => this.resize()
+
     textarea.addEventListener('input', onInput)
     // endregion
 
@@ -79,6 +76,14 @@ export default class MarkDownEditor extends TinyMDE {
       document.removeEventListener('click', onClick, true)
       textarea.removeEventListener('input', onInput)
     }
+  }
+
+  // 自动撑高 textarea 的高度
+  // https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
+  resize () {
+    const { textarea } = this
+    textarea.style.height = 'auto'
+    textarea.style.height = textarea.scrollHeight + 'px'
   }
 
   destroy () {

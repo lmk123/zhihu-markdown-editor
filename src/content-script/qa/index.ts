@@ -67,6 +67,8 @@ detect((container, isAnswered, rawHtml) => {
     } else if (rawHtml) {
       textarea.value = html2md(rawHtml, true)
     }
+    textarea.focus()
+    mde.resize()
   })
 
   container.appendChild(textarea)
