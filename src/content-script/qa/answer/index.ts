@@ -1,7 +1,6 @@
 import zhihuProxy from '../../share/zhihu-proxy'
 import detect from './detect'
 import MDE from '../../share/MarkDownEditor'
-import { editAnswer, getDraft, saveDraft } from './api'
 import html2md from '../../share/html2md'
 import md2html from '../../share/md2html'
 

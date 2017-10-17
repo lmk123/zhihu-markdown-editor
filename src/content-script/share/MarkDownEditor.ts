@@ -1,7 +1,5 @@
 import './editor.scss'
 import TinyMDE from 'tinymde'
-// import zhihuProxy from './zhihu-proxy'
-// import md2html from './md2html'
 
 const toolbarPrefixes: { [type: string]: string | undefined } = {
   'question': '.QuestionAsk-DetailSection',
@@ -20,8 +18,6 @@ export default class MarkDownEditor extends TinyMDE {
 
     // region input 事件时做一些事情
     const onInput = () => {
-      // 将  markdown 转换成 html 保存在知乎编辑器里
-      // zhihuProxy('updateDraft', md2html(textarea.value))
       // 输入时自动撑高 textarea 的高度
       this.resize()
     }
