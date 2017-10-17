@@ -25,6 +25,9 @@
       "matches": [
         "https://www.zhihu.com/question/*"
       ],
+      "css": [
+        "content-answer.css"
+      ],
       "js": [
         "js/content-common.js",
         "js/content-answer.js"

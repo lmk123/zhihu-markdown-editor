@@ -4,6 +4,7 @@ import MDE from '../share/MarkDownEditor'
 import html2md from '../share/html2md'
 import md2html from '../share/md2html'
 import detect from './detect'
+import './style.scss'
 
 const type = 'answer'
 let mde: MDE
