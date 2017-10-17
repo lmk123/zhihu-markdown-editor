@@ -11,6 +11,7 @@ type TInfo = {
 
 let mde: MDE
 let textarea: HTMLTextAreaElement
+let answerId: string | undefined
 let info: TInfo
 
 const qaReg = /\d+/g
@@ -39,25 +40,22 @@ let initMDE = () => {
   info = parseQA()
 
   // 拦截问题提交
-  // todo 提交不成功，代码没有执行到这里
-  document.addEventListener('submit', (event) => {
-    if ((event.target as Element).matches('.AnswerForm')) {
-      event.preventDefault()
+  document.addEventListener('click', (event) => {
+    if ((event.target as Element).matches('.AnswerForm-submit')) {
       event.stopPropagation()
-      console.log(textarea.value)
-      editAnswer(info.aid as string, md2html(textarea.value))
+      editAnswer(answerId as string, md2html(textarea.value))
         .then(content => {
-          const htmlBox = document.querySelector('.CopyrightRichText-richText')
-          if (htmlBox) {
-            htmlBox.innerHTML = content
-          }
+          // 编辑答案的接口没有给出经过服务器处理后的 html，所以暂时刷新一下页面
+          // todo 可以通过请求答案页拿到处理后的 html
+          window.location.replace(`/question/${info.id}/answer/${answerId}`)
         })
     }
   }, true)
 }
 
-detect((container, isAnswered, rawHtml) => {
+detect((container, isAnswered, rawHtml, aid) => {
   initMDE()
+  answerId = aid
 
   textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
 
