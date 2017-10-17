@@ -1,3 +1,4 @@
+import zhihuProxy from '../../share/zhihu-proxy'
 import detect from './detect'
 import MDE from '../../share/MarkDownEditor'
 import { editAnswer, getDraft, saveDraft } from './api'
@@ -34,21 +35,25 @@ function parseQA () {
 let initMDE = () => {
   initMDE = () => {}
   mde = new MDE('answer', () => {
-    saveDraft(info.id, md2html(textarea.value))
+    zhihuProxy('saveDraft', 'answer', md2html(textarea.value))
   })
   textarea = mde.textarea
   info = parseQA()
 
+  interface ICustomMouseEvent extends MouseEvent {
+    __pass?: boolean
+  }
+
   // 拦截问题提交
-  document.addEventListener('click', (event) => {
-    if ((event.target as Element).matches('.AnswerForm-submit')) {
+  document.addEventListener('click', (event: ICustomMouseEvent) => {
+    if (event.__pass) return
+    const target = event.target as HTMLElement
+    if (target.matches('.AnswerForm-submit')) {
       event.stopPropagation()
-      editAnswer(answerId as string, md2html(textarea.value))
-        .then(content => {
-          // 编辑答案的接口没有给出经过服务器处理后的 html，所以暂时刷新一下页面
-          // todo 可以通过请求答案页拿到处理后的 html
-          window.location.replace(`/question/${info.id}/answer/${answerId}`)
-        })
+      zhihuProxy('hackDraft', 'answer', md2html(textarea.value)).then(() => {
+        event.__pass = true
+        target.dispatchEvent(event)
+      })
     }
   }, true)
 }
@@ -59,11 +64,9 @@ detect((container, isAnswered, rawHtml, aid) => {
 
   textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
 
-  getDraft(info.id).then(content => {
-    if (content) {
-      textarea.value = html2md(content)
-    } else if (rawHtml) {
-      textarea.value = html2md(rawHtml, true)
+  zhihuProxy('getDraft', 'answer').then((draft: string) => {
+    if (draft) {
+      textarea.value = html2md(draft)
     }
     textarea.focus()
     mde.resize()
