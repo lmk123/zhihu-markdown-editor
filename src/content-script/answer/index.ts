@@ -14,6 +14,10 @@ let initMDE = () => {
   initMDE = noop
   mde = new MDE(type, () => {
     zhihuProxy('saveDraft', type, md2html(textarea.value))
+    const hiddenFooter = document.querySelector('.AnswerForm-footer--hidden')
+    if (hiddenFooter) {
+      hiddenFooter.classList.remove('AnswerForm-footer--hidden')
+    }
   })
   textarea = mde.textarea
 
