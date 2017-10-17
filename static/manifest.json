@@ -33,5 +33,6 @@
         "js/content-answer.js"
       ]
     }
-  ]
+  ],
+  "minimum_chrome_version": "41"
 }

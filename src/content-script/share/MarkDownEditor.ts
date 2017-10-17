@@ -1,4 +1,4 @@
-import './editor.scss'
+import './editor.css'
 import TinyMDE from 'tinymde'
 import noop from './noop'
 
