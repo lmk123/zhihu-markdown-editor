@@ -38,7 +38,6 @@ inj(() => {
           return draft
         }
         if (type === 'answer') {
-          // 提交时会从这个方法里读取编辑器当前的 HTML，这里直接把这个方法给替换掉
           instance.editable.toHTML = returnDraft
         } else if (type === 'question') {
           instance.state.detail.toHTML = returnDraft
@@ -60,7 +59,6 @@ inj(() => {
   }
 
   function getInstance (type: string) {
-    // 无论是问题还是答案，react 实例都挂在它们最近的 form 父元素上
     const formEle = document.querySelector(formMap[type])
     if (formEle) {
       const reactKey = Object.keys(formEle).find(key => key.startsWith('__reactInternalInstance$'))

@@ -2,7 +2,6 @@ var webpack = require('webpack')
 var utils = require('./utils')
 var config = require('./config')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
@@ -70,11 +69,6 @@ module.exports = {
       // 如果不加下面这一行会报错
       // https://github.com/webpack/webpack/issues/959#issuecomment-276685210
       allChunks: true
-    }) // ,
-    // new HtmlWebpackPlugin({
-    //   chunks: ['background'],
-    //   filename: 'background.html',
-    //   minify: utils.htmlMinify
-    // })
+    })
   ]
 }

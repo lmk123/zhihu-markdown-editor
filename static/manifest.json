@@ -1,8 +1,8 @@
 ﻿{
   "name": "知乎.md",
-  "description": "使用 Markdown 语法撰写你的知乎评论与专栏文章。",
+  "description": "让你可以使用 Markdown 语法撰写你的知乎问题、答案与专栏。",
   "manifest_version": 2,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "permissions": [
     "https://www.zhihu.com/*",
     "https://zhuanlan.zhihu.com/*",
@@ -24,9 +24,6 @@
     {
       "matches": [
         "https://www.zhihu.com/question/*"
-      ],
-      "css": [
-        "content-common.css"
       ],
       "js": [
         "js/content-common.js",

@@ -1,16 +1,18 @@
 import zhihuProxy from '../share/zhihu-proxy'
-import detect from './detect'
+import noop from '../share/noop'
 import MDE from '../share/MarkDownEditor'
 import html2md from '../share/html2md'
 import md2html from '../share/md2html'
+import detect from './detect'
 
+const type = 'answer'
 let mde: MDE
 let textarea: HTMLTextAreaElement
 
 let initMDE = () => {
-  initMDE = () => {}
-  mde = new MDE('answer', () => {
-    zhihuProxy('saveDraft', 'answer', md2html(textarea.value))
+  initMDE = noop
+  mde = new MDE(type, () => {
+    zhihuProxy('saveDraft', type, md2html(textarea.value))
   })
   textarea = mde.textarea
 
@@ -24,7 +26,7 @@ let initMDE = () => {
     const target = event.target as HTMLElement
     if (target.matches('.AnswerForm-submit')) {
       event.stopPropagation()
-      zhihuProxy('hackDraft', 'answer', md2html(textarea.value)).then(() => {
+      zhihuProxy('hackDraft', type, md2html(textarea.value)).then(() => {
         event.__pass = true
         target.dispatchEvent(event)
       })
@@ -37,7 +39,7 @@ detect((container, isAnswered) => {
 
   textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
 
-  zhihuProxy('getDraft', 'answer').then((draft: string) => {
+  zhihuProxy('getDraft', type).then((draft: string) => {
     if (draft) {
       textarea.value = html2md(draft)
     }

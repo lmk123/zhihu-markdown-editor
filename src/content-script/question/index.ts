@@ -1,15 +1,17 @@
 import zhihuProxy from '../share/zhihu-proxy'
-import detect from './detect'
+import noop from '../share/noop'
 import MDE from '../share/MarkDownEditor'
 import html2md from '../share/html2md'
 import md2html from '../share/md2html'
+import detect from './detect'
 
+const type = 'question'
 let mde: MDE
 let textarea: HTMLTextAreaElement
 
 let initMDE = () => {
-  initMDE = () => {}
-  mde = new MDE('answer')
+  initMDE = noop
+  mde = new MDE(type)
   textarea = mde.textarea
 
   interface ICustomMouseEvent extends MouseEvent {
@@ -22,7 +24,7 @@ let initMDE = () => {
     const target = event.target as HTMLElement
     if (target.matches('.QuestionAsk .ModalButtonGroup .Button--primary')) {
       event.stopPropagation()
-      zhihuProxy('hackDraft', 'question', md2html(textarea.value)).then(() => {
+      zhihuProxy('hackDraft', type, md2html(textarea.value)).then(() => {
         event.__pass = true
         target.dispatchEvent(event)
       })
@@ -35,7 +37,7 @@ detect((container) => {
 
   textarea.placeholder = '问题背景、条件等详细信息'
 
-  zhihuProxy('getDraft', 'question').then((draft: string) => {
+  zhihuProxy('getDraft', type).then((draft: string) => {
     if (draft) {
       textarea.value = html2md(draft)
     }
