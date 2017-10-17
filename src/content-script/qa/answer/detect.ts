@@ -1,7 +1,7 @@
 // 检测知乎问答的编辑器
 import testElement from '../../share/test-element'
 
-const editorContainer = '.Input.Editable'
+const editorContainer = '.AnswerForm-editor .Input.Editable'
 
 /*
  * 列表页：url 路径是 /question/342342423 这样的形式

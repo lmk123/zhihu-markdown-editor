@@ -4,15 +4,24 @@
   display: none;
 }
 
-#zhihu-md-tinymde {
+.zhihu-md-tinymde {
   resize: none;
   outline: none;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   border: none;
+}
+
+.AnswerForm .zhihu-md-tinymde {
   padding: 12px 20px;
   font-size: 15px;
   min-height: 118px;
 }
 
+.QuestionAsk .zhihu-md-tinymde {
+  line-height: 24px;
+  padding: 6px 12px;
+  font-size: 14px;
+  min-height: 78px;
+}

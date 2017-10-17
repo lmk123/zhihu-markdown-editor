@@ -18,7 +18,7 @@ let initMDE = () => {
     __pass?: boolean
   }
 
-  // 拦截问题提交
+  // 拦截答案提交
   document.addEventListener('click', (event: ICustomMouseEvent) => {
     if (event.__pass) return
     const target = event.target as HTMLElement

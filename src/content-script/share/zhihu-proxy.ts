@@ -23,16 +23,25 @@ inj(() => {
     getDraft (type: string) {
       const instance = getInstance(type)
       if (instance) {
-        return instance.state.draft
+        if (type === 'answer') {
+          return instance.state.draft
+        } else if (type === 'question') {
+          return instance.props.detail
+        }
       }
     },
 
     hackDraft (type: string, draft: string) {
       const instance = getInstance(type)
       if (instance) {
-        // 提交时会从这个方法里读取编辑器当前的 HTML，这里直接把这个方法给替换掉
-        instance.editable.toHTML = function () {
+        const returnDraft = function () {
           return draft
+        }
+        if (type === 'answer') {
+          // 提交时会从这个方法里读取编辑器当前的 HTML，这里直接把这个方法给替换掉
+          instance.editable.toHTML = returnDraft
+        } else if (type === 'question') {
+          instance.state.detail.toHTML = returnDraft
         }
       }
     },
@@ -45,14 +54,18 @@ inj(() => {
     }
   }
 
+  const formMap: { [type: string]: string } = {
+    answer: 'form.AnswerForm',
+    question: '.QuestionAsk form'
+  }
+
   function getInstance (type: string) {
-    if (type === 'answer') {
-      const formEle = document.querySelector('form.AnswerForm')
-      if (formEle) {
-        const reactKey = Object.keys(formEle).find(key => key.startsWith('__reactInternalInstance$'))
-        if (reactKey) {
-          return (formEle as { [prop: string]: any } )[reactKey]._currentElement._owner._instance
-        }
+    // 无论是问题还是答案，react 实例都挂在它们最近的 form 父元素上
+    const formEle = document.querySelector(formMap[type])
+    if (formEle) {
+      const reactKey = Object.keys(formEle).find(key => key.startsWith('__reactInternalInstance$'))
+      if (reactKey) {
+        return (formEle as { [prop: string]: any } )[reactKey]._currentElement._owner._instance
       }
     }
   }

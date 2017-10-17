@@ -1,5 +1,6 @@
 import './editor.scss'
 import TinyMDE from 'tinymde'
+import noop from './noop'
 
 const toolbarPrefixes: { [type: string]: string | undefined } = {
   'question': '.QuestionAsk-DetailSection',
@@ -10,9 +11,9 @@ export default class MarkDownEditor extends TinyMDE {
   private removeListeners: () => void
   textarea: HTMLTextAreaElement
 
-  constructor (type: string, onSave?: () => void) {
+  constructor (type: string, onSave = noop) {
     const textarea = document.createElement('textarea')
-    textarea.id = 'zhihu-md-tinymde'
+    textarea.className = 'zhihu-md-tinymde'
     super(textarea, { onSave })
     this.textarea = textarea
 
