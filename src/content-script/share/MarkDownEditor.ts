@@ -8,7 +8,6 @@ const toolbarPrefixes: { [type: string]: string | undefined } = {
 }
 
 export default class MarkDownEditor extends TinyMDE {
-  private removeListeners: () => void
   textarea: HTMLTextAreaElement
 
   constructor (type: string, onSave = noop) {
@@ -18,15 +17,13 @@ export default class MarkDownEditor extends TinyMDE {
     this.textarea = textarea
 
     // region 输入时自动撑高 textarea 的高度
-    const onInput = () => {
+    textarea.addEventListener('input', () => {
       this.resize()
-    }
-
-    textarea.addEventListener('input', onInput)
+    })
     // endregion
 
     // region 拦截「插入链接」的表单提交
-    const onSubmit = (event: Event) => {
+    document.addEventListener('submit', (event: Event) => {
       const target = event.target as Element
       if (target.matches('.LinkModal-form')) {
         event.preventDefault()
@@ -46,8 +43,7 @@ export default class MarkDownEditor extends TinyMDE {
         // 2333333
         window.alert('弹层似乎关不掉了，你自己关吧。')
       }
-    }
-    document.addEventListener('submit', onSubmit, true)
+    }, true)
     // endregion
 
     // region 拦截工具栏
@@ -67,7 +63,7 @@ export default class MarkDownEditor extends TinyMDE {
     }
 
     const toolbarSelector = toolbarPrefixes[type] + ' .Editable-toolbar > button[aria-label]'
-    const onClick = (event: MouseEvent) => {
+    document.addEventListener('click', event => {
       const btn = (event.target as Element).closest(toolbarSelector)
       if (btn) {
         const label = btn.getAttribute('aria-label') as string
@@ -77,15 +73,21 @@ export default class MarkDownEditor extends TinyMDE {
           func()
         }
       }
-    }
-    document.addEventListener('click', onClick, true)
+    }, true)
     // endregion
 
-    this.removeListeners = function () {
-      document.removeEventListener('submit', onSubmit, true)
-      document.removeEventListener('click', onClick, true)
-      textarea.removeEventListener('input', onInput)
-    }
+    // region 删除草稿后清空编辑器的内容
+    document.addEventListener('click', event => {
+      const target = event.target as Element
+      const modalInner = target.closest('.Modal-inner')
+      if (modalInner) {
+        const modalTitle = modalInner.querySelector('.Modal-title')
+        if (modalTitle && modalTitle.textContent === '清除草稿') {
+          textarea.value = ''
+        }
+      }
+    })
+    // endregion
   }
 
   // 自动撑高 textarea 的高度
@@ -94,17 +96,6 @@ export default class MarkDownEditor extends TinyMDE {
     const { textarea } = this
     textarea.style.height = 'auto'
     textarea.style.height = textarea.scrollHeight + 'px'
-  }
-
-  destroy () {
-    this.removeListeners()
-    super.destroy()
-
-    const { textarea } = this
-    const { parentNode } = textarea
-    if (parentNode) {
-      parentNode.removeChild(this.textarea)
-    }
   }
 }
 

@@ -24,7 +24,8 @@ inj(() => {
       const instance = getInstance(type)
       if (instance) {
         if (type === 'answer') {
-          return instance.state.draft
+          // 先获取草稿，如果没有则获取已经回答过的答案
+          return instance.state.draft || instance.props.defaultValue
         } else if (type === 'question') {
           return instance.props.detail
         }
