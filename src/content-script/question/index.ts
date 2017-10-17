@@ -1,30 +1,28 @@
-import zhihuProxy from '../../share/zhihu-proxy'
+import zhihuProxy from '../share/zhihu-proxy'
 import detect from './detect'
-import MDE from '../../share/MarkDownEditor'
-import html2md from '../../share/html2md'
-import md2html from '../../share/md2html'
+import MDE from '../share/MarkDownEditor'
+import html2md from '../share/html2md'
+import md2html from '../share/md2html'
 
 let mde: MDE
 let textarea: HTMLTextAreaElement
 
 let initMDE = () => {
   initMDE = () => {}
-  mde = new MDE('answer', () => {
-    zhihuProxy('saveDraft', 'answer', md2html(textarea.value))
-  })
+  mde = new MDE('answer')
   textarea = mde.textarea
 
   interface ICustomMouseEvent extends MouseEvent {
     __pass?: boolean
   }
 
-  // 拦截答案提交
+  // 拦截问题提交
   document.addEventListener('click', (event: ICustomMouseEvent) => {
     if (event.__pass) return
     const target = event.target as HTMLElement
-    if (target.matches('.AnswerForm-submit')) {
+    if (target.matches('.QuestionAsk .ModalButtonGroup .Button--primary')) {
       event.stopPropagation()
-      zhihuProxy('hackDraft', 'answer', md2html(textarea.value)).then(() => {
+      zhihuProxy('hackDraft', 'question', md2html(textarea.value)).then(() => {
         event.__pass = true
         target.dispatchEvent(event)
       })
@@ -32,12 +30,12 @@ let initMDE = () => {
   }, true)
 }
 
-detect((container, isAnswered) => {
+detect((container) => {
   initMDE()
 
-  textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
+  textarea.placeholder = '问题背景、条件等详细信息'
 
-  zhihuProxy('getDraft', 'answer').then((draft: string) => {
+  zhihuProxy('getDraft', 'question').then((draft: string) => {
     if (draft) {
       textarea.value = html2md(draft)
     }

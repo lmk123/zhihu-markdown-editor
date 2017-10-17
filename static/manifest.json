@@ -11,13 +11,26 @@
   "content_scripts": [
     {
       "matches": [
+        "https://www.zhihu.com/*"
+      ],
+      "css": [
+        "content-common.css"
+      ],
+      "js": [
+        "js/content-common.js",
+        "js/content-question.js"
+      ]
+    },
+    {
+      "matches": [
         "https://www.zhihu.com/question/*"
       ],
       "css": [
-        "content-qa.css"
+        "content-common.css"
       ],
       "js": [
-        "js/content-qa.js"
+        "js/content-common.js",
+        "js/content-answer.js"
       ]
     }
   ]

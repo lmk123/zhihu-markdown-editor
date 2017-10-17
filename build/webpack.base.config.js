@@ -1,3 +1,4 @@
+var webpack = require('webpack')
 var utils = require('./utils')
 var config = require('./config')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -7,8 +8,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
-    'content-qa': './src/content-script/qa/index.ts' //,
-    // background: './src/background/index.ts'
+    'content-answer': './src/content-script/answer/index.ts',
+    'content-question': './src/content-script/question/index.ts'
   },
   output: {
     path: utils.absolutePath(config.build.assetsRoot),
@@ -60,6 +61,10 @@ module.exports = {
         ignore: ['.*']
       }
     ]),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'content-common',
+      chunks: ['content-answer', 'content-question']
+    }),
     new ExtractTextPlugin({
       filename: '[name].css',
       // 如果不加下面这一行会报错

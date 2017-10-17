@@ -1,4 +1,4 @@
-import testElement from '../../share/test-element'
+import testElement from '../share/test-element'
 
 const editorContainer = '.QuestionAsk-DetailSection .Input.Editable'
 

@@ -6,7 +6,7 @@ inj(() => {
     const { data } = event
     if (!data || data.from !== 'content-script') return
 
-    Promise.resolve(methods[data.method](...data.params)).then(result => {
+    Promise.resolve(methods[data.method](data.type, ...data.params)).then(result => {
       window.postMessage({
         from: 'proxy',
         id: data.id,
@@ -69,17 +69,18 @@ inj(() => {
       }
     }
   }
-})
+}, 'zhihu-proxy')
 
 let seed = 0
 
 type TWaitingResponse = {
-  [id: number]: (result: any) => void
+  [id: string]: (result: any) => void
 }
 
 const waitingResponseMessages: TWaitingResponse = {}
 
 window.addEventListener('message', function handler (event) {
+  if (event.source !== window) return
   const { data } = event
   if (!data || data.from !== 'proxy') return
   const { id } = data
@@ -90,9 +91,9 @@ window.addEventListener('message', function handler (event) {
   }
 })
 
-export default function (method: string, ...params: any[]) {
+export default function (method: string, type: string, ...params: any[]) {
   return new Promise(resolve => {
-    const msgId = seed++
+    const msgId = type + '-' + seed++
 
     waitingResponseMessages[msgId] = resolve
 
@@ -100,6 +101,7 @@ export default function (method: string, ...params: any[]) {
       from: 'content-script',
       id: msgId,
       method,
+      type,
       params
     }, '*')
   })

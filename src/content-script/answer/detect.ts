@@ -1,5 +1,5 @@
 // 检测知乎问答的编辑器
-import testElement from '../../share/test-element'
+import testElement from '../share/test-element'
 
 const editorContainer = '.AnswerForm-editor .Input.Editable'
 
