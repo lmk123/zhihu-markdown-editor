@@ -16,42 +16,13 @@ const editorContainer = '.Input.Editable'
  *   - 如果这个答案是用户自己写的，则会有「修改」链接
  */
 
-function tryGetRawHtml (editLink: Element) {
-  let rawHtml: string | undefined
-  const richContainer = editLink.closest('.RichContent')
-  if (richContainer) {
-    const innerContainer = richContainer.querySelector('.CopyrightRichText-richText')
-    if (innerContainer) {
-      rawHtml = innerContainer.innerHTML
-    }
-  }
-  if (rawHtml === undefined) {
-    window.alert('无法获取已回答内容，可能是页面结构发生了变化。')
-  }
-  return rawHtml
-}
-
-function tryGetAnswerId (editLink: Element): string {
-  const item = editLink.closest('.ContentItem.AnswerItem') as HTMLElement
-  if (item) {
-    return JSON.parse(item.dataset.zop as string).itemId
-  }
-  const msg = '无法获取问题的 id，可能是页面结构发生了变化'
-  window.alert(msg)
-  throw new Error(msg)
-}
-
-export default function (onEditorShow: (container: Element, answered: boolean, rawHtml?: string, aid?: string) => void) {
+export default function (onEditorShow: (container: Element, answered: boolean) => void) {
   // 无论是那种情况，点了「修改」之后都一定会出现编辑器
   document.addEventListener('click', function (event: MouseEvent) {
     const editLink = (event.target as Element).closest('.AnswerItem-editButton')
     if (editLink) {
-      // 先尝试获取已回答的内容
-      const rawHtml = tryGetRawHtml(editLink)
-      const aid = tryGetAnswerId(editLink)
-
       testElement(editorContainer).then(container => {
-        onEditorShow(container, true, rawHtml, aid)
+        onEditorShow(container, true)
       })
     }
   })

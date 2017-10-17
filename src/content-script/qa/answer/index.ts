@@ -4,32 +4,8 @@ import MDE from '../../share/MarkDownEditor'
 import html2md from '../../share/html2md'
 import md2html from '../../share/md2html'
 
-type TInfo = {
-  id: string
-  aid?: string
-}
-
 let mde: MDE
 let textarea: HTMLTextAreaElement
-let answerId: string | undefined
-let info: TInfo
-
-const qaReg = /\d+/g
-
-function parseQA () {
-  const url = new URL(window.location.href)
-  const match = url.pathname.match(qaReg)
-  if (match) {
-    return {
-      id: match[0], // 问题的 id
-      aid: match[1] // 答案的 id
-    }
-  } else {
-    const msg = '无法检测知乎问答信息，可能是知乎链接结构发生了变化。'
-    window.alert(msg)
-    throw new Error(msg)
-  }
-}
 
 let initMDE = () => {
   initMDE = () => {}
@@ -37,7 +13,6 @@ let initMDE = () => {
     zhihuProxy('saveDraft', 'answer', md2html(textarea.value))
   })
   textarea = mde.textarea
-  info = parseQA()
 
   interface ICustomMouseEvent extends MouseEvent {
     __pass?: boolean
@@ -57,9 +32,8 @@ let initMDE = () => {
   }, true)
 }
 
-detect((container, isAnswered, rawHtml, aid) => {
+detect((container, isAnswered) => {
   initMDE()
-  answerId = aid
 
   textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
 

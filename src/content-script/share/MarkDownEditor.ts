@@ -16,9 +16,8 @@ export default class MarkDownEditor extends TinyMDE {
     super(textarea, { onSave })
     this.textarea = textarea
 
-    // region input 事件时做一些事情
+    // region 输入时自动撑高 textarea 的高度
     const onInput = () => {
-      // 输入时自动撑高 textarea 的高度
       this.resize()
     }
 
