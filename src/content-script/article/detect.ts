@@ -4,6 +4,7 @@ const editorContainer = '.Input.Editable'
 const editPostReg = /^\/p\/\d+\/edit$/
 
 export default function (onEditorShow: (container: Element) => void) {
+  // todo 这段代码不能在内容脚本里 hack，无效
   const { pushState, replaceState } = window.history
 
   window.history.pushState = function () {
@@ -20,7 +21,7 @@ export default function (onEditorShow: (container: Element) => void) {
 
   function detect () {
     console.log('detect')
-    const { pathname } = new URL(location.href)
+    const { pathname } = window.location
     if (pathname === '/write' || editPostReg.test(pathname)) {
       testElement(editorContainer).then(el => {
         onEditorShow(el)

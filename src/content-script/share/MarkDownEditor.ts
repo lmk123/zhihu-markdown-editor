@@ -3,9 +3,10 @@ import TinyMDE from 'tinymde'
 import hotkey from './hotkey'
 import noop from './noop'
 
-const toolbarPrefixes = {
+const toolbarPrefixes: { [type: string]: string | undefined } = {
   question: '.QuestionAsk-DetailSection',
-  answer: '.AnswerForm-editor'
+  answer: '.AnswerForm-editor',
+  article: '.PostEditor'
 }
 
 type TEditType = keyof typeof toolbarPrefixes

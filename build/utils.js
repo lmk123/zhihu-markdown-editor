@@ -2,13 +2,13 @@ var path = require('path')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
-exports.absolutePath = function (prePath) {
+exports.absolutePath = function(prePath) {
   return path.resolve(__dirname, '..', prePath)
 }
 
 exports.cssLoaders = getCssLoaders
 
-function getCssLoaders (options) {
+function getCssLoaders(options) {
   options = options || {}
 
   var cssLoader = {
@@ -25,7 +25,7 @@ function getCssLoaders (options) {
    * @param {object} [loaderOptions]
    * @return {Array}
    */
-  function generateLoader (ext, loaderOptions) {
+  function generateLoader(ext, loaderOptions) {
     // vue-loader 会自动给 .vue 文件中的 <style> 块应用 postcss-loader，
     // 但当直接在项目中引用 CSS 文件时就不会，所以
     // 这里统一加上 postcss-loader
@@ -68,7 +68,7 @@ function getCssLoaders (options) {
 }
 
 // Generate loaders for standalone style files (outside of .vue)
-exports.styleLoaders = function (options) {
+exports.styleLoaders = function(options) {
   var output = []
   var loaders = getCssLoaders(options)
   for (var extension in loaders) {
