@@ -1,26 +1,29 @@
 import inj from './inject-script'
 
 inj(() => {
-  window.addEventListener('message', event => {
-    if (event.source !== window) return
-    const { data } = event
-    if (!data || data.from !== 'content-script') return
+  const formMap = {
+    answer: 'form.AnswerForm',
+    question: '.QuestionAsk form'
+  }
 
-    Promise.resolve(methods[data.method](data.type, ...data.params)).then(result => {
-      window.postMessage({
-        from: 'proxy',
-        id: data.id,
-        result
-      }, '*')
-    })
-  })
+  type TType = keyof typeof formMap
+
+  function getInstance(type: TType) {
+    const formEle = document.querySelector(formMap[type])
+    if (formEle) {
+      const reactKey = Object.keys(formEle).find(key => key.startsWith('__reactInternalInstance$'))
+      if (reactKey) {
+        return (formEle as { [prop: string]: any })[reactKey]._currentElement._owner._instance
+      }
+    }
+  }
 
   type TMethods = {
-    [method: string]: (...args: any[]) => any | Promise<any>
+    [method: string]: ((type: TType, ...args: any[]) => any | Promise<any>) | undefined
   }
 
   const methods: TMethods = {
-    getDraft (type: string) {
+    getDraft(type: TType) {
       const instance = getInstance(type)
       if (instance) {
         if (type === 'answer') {
@@ -32,10 +35,10 @@ inj(() => {
       }
     },
 
-    hackDraft (type: string, draft: string) {
+    hackDraft(type: TType, draft: string) {
       const instance = getInstance(type)
       if (instance) {
-        const returnDraft = function () {
+        const returnDraft = function() {
           return draft
         }
         if (type === 'answer') {
@@ -46,7 +49,7 @@ inj(() => {
       }
     },
 
-    saveDraft (type: string, draft: string) {
+    saveDraft(type: TType, draft: string) {
       const instance = getInstance(type)
       if (instance) {
         instance.updateDraft(draft)
@@ -54,31 +57,36 @@ inj(() => {
     }
   }
 
-  const formMap: { [type: string]: string } = {
-    answer: 'form.AnswerForm',
-    question: '.QuestionAsk form'
-  }
+  window.addEventListener('message', event => {
+    if (event.source !== window) return
+    const { data } = event
+    if (!data || data.from !== 'content-script') return
 
-  function getInstance (type: string) {
-    const formEle = document.querySelector(formMap[type])
-    if (formEle) {
-      const reactKey = Object.keys(formEle).find(key => key.startsWith('__reactInternalInstance$'))
-      if (reactKey) {
-        return (formEle as { [prop: string]: any } )[reactKey]._currentElement._owner._instance
-      }
+    const func = methods[data.method]
+    if (func) {
+      Promise.resolve(func(data.type, ...data.params)).then(result => {
+        window.postMessage(
+          {
+            from: 'proxy',
+            id: data.id,
+            result
+          },
+          '*'
+        )
+      })
     }
-  }
-}, 'zhihu-proxy')
+  })
+})
 
 let seed = 0
 
-type TWaitingResponse = {
+interface IWaitingResponse {
   [id: string]: (result: any) => void
 }
 
-const waitingResponseMessages: TWaitingResponse = {}
+const waitingResponseMessages: IWaitingResponse = {}
 
-window.addEventListener('message', function handler (event) {
+window.addEventListener('message', function(event) {
   if (event.source !== window) return
   const { data } = event
   if (!data || data.from !== 'proxy') return
@@ -90,18 +98,21 @@ window.addEventListener('message', function handler (event) {
   }
 })
 
-export default function (method: string, type: string, ...params: any[]) {
+export default function(method: string, type: string, ...params: any[]) {
   return new Promise(resolve => {
     const msgId = type + '-' + seed++
 
     waitingResponseMessages[msgId] = resolve
 
-    window.postMessage({
-      from: 'content-script',
-      id: msgId,
-      method,
-      type,
-      params
-    }, '*')
+    window.postMessage(
+      {
+        from: 'content-script',
+        id: msgId,
+        method,
+        type,
+        params
+      },
+      '*'
+    )
   })
 }

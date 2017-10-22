@@ -16,9 +16,9 @@ const editorContainer = '.AnswerForm-editor .Input.Editable'
  *   - 如果这个答案是用户自己写的，则会有「修改」链接
  */
 
-export default function (onEditorShow: (container: Element, answered: boolean) => void) {
-  // 无论是那种情况，点了「修改」之后都一定会出现编辑器
-  document.addEventListener('click', function (event: MouseEvent) {
+export default function(onEditorShow: (container: Element, answered: boolean) => void) {
+  // 无论是哪种情况，点了「修改」之后都会出现编辑器
+  document.addEventListener('click', function(event: MouseEvent) {
     const editLink = (event.target as Element).closest('.AnswerItem-editButton')
     if (editLink) {
       testElement(editorContainer).then(container => {

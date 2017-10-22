@@ -1,20 +1,11 @@
 /**
  * 插入一段代码或者一个函数到宿主页面中。
- * 使用第二个参数作为 script 的 id，如果 id 相同则不会重新插入。
  * @example
- *  injectScript('alert("hi")', 'myscript')
- *  injectScript(function () { alert('hi') }, 'myscript')
+ *  injectScript('alert("hi")')
+ *  injectScript(function () { alert('hi') })
  */
-export default function (code: string | (() => void), id: string) {
-  if (document.getElementById(id)) return
-  let codeString: string
-  if (typeof code === 'function') {
-    codeString = code.toString()
-  } else {
-    codeString = `function(){${code}}`
-  }
+export default function(code: () => void) {
   const script = document.createElement('script')
-  script.id = id
-  script.textContent = `(${codeString})()`
+  script.textContent = `(${code.toString()})()`
   document.head.appendChild(script)
 }
