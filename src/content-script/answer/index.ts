@@ -52,6 +52,8 @@ export default function() {
     zhihuProxy('getDraft', type).then((draft: string) => {
       if (draft) {
         textarea.value = html2md(draft)
+        // todo 需要一个 clearState 方法
+        mde.saveState()
       }
       textarea.focus()
       mde.resize()

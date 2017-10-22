@@ -1,5 +1,6 @@
 import './editor.css'
 import TinyMDE from 'tinymde'
+import hotkey from './hotkey'
 import noop from './noop'
 
 const toolbarPrefixes = {
@@ -26,35 +27,6 @@ export default class MarkDownEditor extends TinyMDE {
     })
     // endregion
 
-    // region 拦截「插入链接」的表单提交
-    document.addEventListener(
-      'submit',
-      (event: Event) => {
-        const target = event.target as Element
-        if (target.matches('.LinkModal-form')) {
-          event.preventDefault()
-          event.stopPropagation()
-          const inputs = target.querySelectorAll('.LinkModal-input input') as NodeListOf<HTMLInputElement>
-          this.link(inputs[1].value, inputs[0].value)
-
-          // 关闭弹层
-          const modal = target.closest('.Modal-wrapper')
-          if (modal) {
-            const back = modal.querySelector('.Modal-backdrop')
-            if (back) {
-              ;(back as HTMLDivElement).click()
-              return
-            }
-          }
-          // 2333333
-          window.alert('弹层似乎关不掉了，你自己关吧。')
-        }
-      },
-      true
-    )
-    // endregion
-
-    // region 拦截工具栏
     const map = {
       粗体: () => this.bold(),
       斜体: () => this.italic(),
@@ -63,15 +35,25 @@ export default class MarkDownEditor extends TinyMDE {
       代码块: () => this.blockCode(),
       有序列表: () => this.ol(),
       无序列表: () => this.ul(),
+      插入链接: () => this.link(),
       上传图片: notSupportYet,
       插入视频: notSupportYet,
       插入公式: notSupportYet,
       插入分割线: () => this.hr(),
-      清除格式: notSupportYet
+      清除格式: notSupportYet,
+      // 界面上没有下面两个按钮，写在这里是为了兼容快捷键
+      撤销: () => this.undo(),
+      重做: () => this.redo()
     }
 
     type TMapAction = keyof typeof map
 
+    // 快捷键
+    hotkey(textarea, label => {
+      map[label]()
+    })
+
+    // region 拦截工具栏
     const toolbarSelector = toolbarPrefixes[type] + ' .Editable-toolbar > button[aria-label]'
     document.addEventListener(
       'click',
