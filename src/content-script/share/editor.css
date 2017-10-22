@@ -15,9 +15,3 @@
 .zhihu-md-tinymde::-webkit-input-placeholder {
   color: #9eacc7;
 }
-
-.QuestionAsk .zhihu-md-tinymde {
-  padding: 6px 12px;
-  font-size: 14px;
-  min-height: 78px;
-}

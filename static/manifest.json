@@ -1,6 +1,6 @@
 ﻿{
   "name": "知乎.md",
-  "description": "让你可以使用 Markdown 语法撰写你的知乎问题、答案与专栏。",
+  "description": "让你可以使用 Markdown 语法撰写你的知乎问题和答案。",
   "manifest_version": 2,
   "version": "0.0.0",
   "permissions": [
@@ -10,28 +10,9 @@
   ],
   "content_scripts": [
     {
-      "matches": [
-        "https://www.zhihu.com/*"
-      ],
-      "css": [
-        "content-common.css"
-      ],
-      "js": [
-        "js/content-common.js",
-        "js/content-question.js"
-      ]
-    },
-    {
-      "matches": [
-        "https://www.zhihu.com/question/*"
-      ],
-      "css": [
-        "content-answer.css"
-      ],
-      "js": [
-        "js/content-common.js",
-        "js/content-answer.js"
-      ]
+      "matches": ["https://www.zhihu.com/*"],
+      "css": ["content.css"],
+      "js": ["js/content.js"]
     }
   ],
   "minimum_chrome_version": "41"

@@ -7,8 +7,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
-    'content-answer': './src/content-script/answer/index.ts',
-    'content-question': './src/content-script/question/index.ts'
+    content: './src/content-script/index.ts'
   },
   output: {
     path: utils.absolutePath(config.build.assetsRoot),
@@ -20,10 +19,6 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.html$/,
-        loader: 'html-loader'
-      },
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
@@ -45,10 +40,12 @@ module.exports = {
           name: 'fonts/[name].[hash].[ext]'
         }
       }
-    ].concat(utils.styleLoaders({
-      sourceMap: config.build.sourceMap,
-      extract: true
-    }))
+    ].concat(
+      utils.styleLoaders({
+        sourceMap: config.build.sourceMap,
+        extract: true
+      })
+    )
   },
   plugins: [
     new CleanWebpackPlugin([config.build.assetsRoot], {
@@ -60,10 +57,6 @@ module.exports = {
         ignore: ['.*']
       }
     ]),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'content-common',
-      chunks: ['content-answer', 'content-question']
-    }),
     new ExtractTextPlugin({
       filename: '[name].css',
       // 如果不加下面这一行会报错
