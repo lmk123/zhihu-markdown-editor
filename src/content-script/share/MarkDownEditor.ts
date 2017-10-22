@@ -86,6 +86,30 @@ export default class MarkDownEditor extends TinyMDE {
       },
       true
     )
+    // 「问题」还有两个额外的按钮
+    if (type === 'question') {
+      document.addEventListener(
+        'click',
+        event => {
+          const btn = (event.target as Element).closest('.QuestionAsk-sectionHeaderRight > button')
+          if (btn) {
+            // 第二个是图片，第三个是视频
+            const i = Array.prototype.indexOf.call((btn.parentElement as HTMLElement).children, btn)
+            switch (i) {
+              case 1:
+                event.stopPropagation()
+                map['上传图片']()
+                break
+              case 2:
+                event.stopPropagation()
+                map['插入视频']()
+                break
+            }
+          }
+        },
+        true
+      )
+    }
     // endregion
 
     // region 删除草稿后清空编辑器的内容
