@@ -9,6 +9,8 @@ const toolbarPrefixes = {
 
 type TEditType = keyof typeof toolbarPrefixes
 
+let cloneTextarea: HTMLTextAreaElement
+
 export default class MarkDownEditor extends TinyMDE {
   textarea: HTMLTextAreaElement
 
@@ -129,9 +131,19 @@ export default class MarkDownEditor extends TinyMDE {
   // 自动撑高 textarea 的高度
   // https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
   resize() {
+    // 直接把原来的 textarea 设置 `height = 'auto'` 会导致浏览器跳回到文本框第一行的位置，
+    // 所以这里用了一个复制出来的 textarea
+    if (!cloneTextarea) {
+      cloneTextarea = document.createElement('textarea')
+      cloneTextarea.className = 'zhihu-md-tinymde'
+      cloneTextarea.style.height = 'auto'
+    }
     const { textarea } = this
-    textarea.style.height = 'auto'
-    textarea.style.height = textarea.scrollHeight + 'px'
+    const parent = textarea.parentElement as Element
+    parent.appendChild(cloneTextarea)
+    cloneTextarea.value = textarea.value
+    textarea.style.height = cloneTextarea.scrollHeight + 'px'
+    parent.removeChild(cloneTextarea)
   }
 }
 
