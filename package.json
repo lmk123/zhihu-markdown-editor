@@ -2,7 +2,7 @@
   "browserslist": ["chrome >= 41"],
   "private": true,
   "scripts": {
-    "dev": "webpack --watch --config build/webpack.dev.config.js",
+    "start": "webpack --watch --config build/webpack.dev.config.js",
     "build": "npm run lint && webpack --config build/webpack.prod.config.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "lint:fix": "npm run lint -- --fix"

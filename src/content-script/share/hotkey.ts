@@ -1,10 +1,12 @@
-const base = [navigator.userAgent.toLocaleLowerCase().includes('mac') ? 'meta' : 'ctrl']
+const base = [
+  navigator.userAgent.toLocaleLowerCase().includes('mac') ? 'meta' : 'ctrl'
+]
 const baseAndAlt = base.concat('alt')
 const baseAndShift = base.concat('shift')
 
 type TKey = 'metaKey' | 'altKey' | 'shiftKey'
 
-const windows = {
+const shortcutKeys = {
   粗体: {
     modifiers: base,
     keyCode: 66 // b
@@ -60,15 +62,18 @@ const windows = {
   }
 }
 
-type TLabel = keyof typeof windows
+type TLabel = keyof typeof shortcutKeys
 type TMatchFunc = (laebl: TLabel) => void
 
 export default function(textarea: HTMLTextAreaElement, onMatch: TMatchFunc) {
   textarea.addEventListener('keydown', e => {
     const { keyCode } = e
-    for (let label in windows) {
-      const pattern = windows[label as TLabel]
-      if (keyCode === pattern.keyCode && pattern.modifiers.every(m => e[(m + 'Key') as TKey])) {
+    for (let label in shortcutKeys) {
+      const pattern = shortcutKeys[label as TLabel]
+      if (
+        keyCode === pattern.keyCode &&
+        pattern.modifiers.every(m => e[(m + 'Key') as TKey])
+      ) {
         if (label === '撤销') {
           e.preventDefault()
         }
