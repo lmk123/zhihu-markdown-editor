@@ -16,7 +16,9 @@ const editorContainer = '.AnswerForm-editor .Input.Editable'
  *   - 如果这个答案是用户自己写的，则会有「修改」链接
  */
 
-export default function(onEditorShow: (container: Element, answered: boolean) => void) {
+export default function(
+  onEditorShow: (container: Element, answered: boolean) => void
+) {
   // 无论是哪种情况，点了「修改」之后都会出现编辑器
   document.addEventListener('click', function(event: MouseEvent) {
     const editLink = (event.target as Element).closest('.AnswerItem-editButton')
@@ -35,15 +37,19 @@ export default function(onEditorShow: (container: Element, answered: boolean) =>
     })
   } else {
     // 等待用户点击「写回答」按钮，点击之后判断出现的是已回答的提示还是编辑器
-    const writeAnswer = document.querySelector('.QuestionHeader-footer .QuestionButtonGroup button:last-child')
+    const writeAnswer = document.querySelector(
+      '.QuestionHeader-footer .QuestionButtonGroup button:last-child'
+    )
     if (writeAnswer) {
       writeAnswer.addEventListener('click', () => {
         window.setTimeout(() => {
-          testElement('.QuestionAnswers-answerTipCard,' + editorContainer).then(el => {
-            if (el.matches(editorContainer)) {
-              onEditorShow(el as HTMLDivElement, false)
+          testElement('.QuestionAnswers-answerTipCard,' + editorContainer).then(
+            el => {
+              if (el.matches(editorContainer)) {
+                onEditorShow(el as HTMLDivElement, false)
+              }
             }
-          })
+          )
         }, 0)
       })
     } else {

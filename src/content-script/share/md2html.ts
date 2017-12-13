@@ -7,7 +7,7 @@ const zhMarkedRenderer = new marked.Renderer()
 const brStr = '<br>'
 const brLength = brStr.length
 
-function removeLastBr (str: string) {
+function removeLastBr(str: string) {
   if (str.endsWith(brStr)) {
     return str.slice(0, -brLength)
   }
@@ -18,7 +18,8 @@ function removeLastBr (str: string) {
 zhMarkedRenderer.heading = (text, level) => `<h${level}>${text}</h${level}>`
 
 // 替换掉代码块
-zhMarkedRenderer.code = (code, language = 'text') => `<pre lang="${language}">${removeLastBr(code.replace(nReg, brStr))}</pre>`
+zhMarkedRenderer.code = (code, language = 'text') =>
+  `<pre lang="${language}">${removeLastBr(code.replace(nReg, brStr))}</pre>`
 
 // 知乎是用 <br> 分隔引用块里面的段落的
 zhMarkedRenderer.blockquote = quote => {
@@ -40,6 +41,6 @@ const options = {
   sanitize: true
 }
 
-export default function (markDown: string) {
+export default function(markDown: string) {
   return marked(markDown, options).replace(nReg, '')
 }

@@ -21,11 +21,10 @@ export default class MarkDownEditor extends TinyMDE {
     super(textarea, { onSave })
     this.textarea = textarea
 
-    // region 输入时自动撑高 textarea 的高度
+    // 输入时自动撑高 textarea 的高度
     textarea.addEventListener('input', () => {
       this.resize()
     })
-    // endregion
 
     const map = {
       粗体: () => this.bold(),
@@ -53,8 +52,9 @@ export default class MarkDownEditor extends TinyMDE {
       map[label]()
     })
 
-    // region 拦截工具栏
-    const toolbarSelector = toolbarPrefixes[type] + ' .Editable-toolbar > button[aria-label]'
+    // 拦截工具栏
+    const toolbarSelector =
+      toolbarPrefixes[type] + ' .Editable-toolbar > button[aria-label]'
     document.addEventListener(
       'click',
       event => {
@@ -75,10 +75,15 @@ export default class MarkDownEditor extends TinyMDE {
       document.addEventListener(
         'click',
         event => {
-          const btn = (event.target as Element).closest('.QuestionAsk-sectionHeaderRight > button')
+          const btn = (event.target as Element).closest(
+            '.QuestionAsk-sectionHeaderRight > button'
+          )
           if (btn) {
             // 第二个是图片，第三个是视频
-            const i = Array.prototype.indexOf.call((btn.parentElement as HTMLElement).children, btn)
+            const i = Array.prototype.indexOf.call(
+              (btn.parentElement as HTMLElement).children,
+              btn
+            )
             switch (i) {
               case 1:
                 event.stopPropagation()
@@ -94,9 +99,8 @@ export default class MarkDownEditor extends TinyMDE {
         true
       )
     }
-    // endregion
 
-    // region 删除草稿后清空编辑器的内容
+    // 删除草稿后清空编辑器的内容
     document.addEventListener('click', event => {
       const target = event.target as Element
       const modalInner = target.closest('.Modal-inner')
@@ -107,7 +111,6 @@ export default class MarkDownEditor extends TinyMDE {
         }
       }
     })
-    // endregion
   }
 
   // 自动撑高 textarea 的高度

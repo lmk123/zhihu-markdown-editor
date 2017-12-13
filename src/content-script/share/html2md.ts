@@ -8,7 +8,7 @@ const options = {
     {
       // 默认的情况下会给无序/有序列表的符号后面加上三个空格。这里改为只加一个。
       filter: 'li',
-      replacement (innerHTML: string, node: HTMLLIElement) {
+      replacement(innerHTML: string, node: HTMLLIElement) {
         const { parentElement } = node
 
         if (parentElement) {
@@ -29,14 +29,14 @@ const options = {
     },
     {
       filter: 'pre',
-      replacement (innerHTML: string, node: HTMLPreElement) {
+      replacement(innerHTML: string, node: HTMLPreElement) {
         return '```' + node.lang + '\n' + innerHTML + '\n```'
       }
     }
   ]
 }
 
-export default function (html: string, raw?: boolean) {
+export default function(html: string, raw?: boolean) {
   if (raw) {
     html = normal(html)
   }
@@ -47,7 +47,7 @@ const linkReg = /href="https:\/\/link\.zhihu\.com\/\?target=([^"]+)"/g
 const codeBlockReg = /<div class="highlight"><pre><code class="language-([^"]+?)">([\s\S]*?)<\/code><\/pre><\/div>/g
 const htmlReg = /<\/?[^>]+?>/g
 
-function normal (html: string) {
+function normal(html: string) {
   // 去掉知乎的链接前缀
   html = html.replace(linkReg, (match, link) => {
     return `href="${decodeURIComponent(link)}"`

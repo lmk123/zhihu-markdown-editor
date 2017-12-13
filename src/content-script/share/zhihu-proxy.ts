@@ -11,15 +11,20 @@ inj(() => {
   function getInstance(type: TType) {
     const formEle = document.querySelector(formMap[type])
     if (formEle) {
-      const reactKey = Object.keys(formEle).find(key => key.startsWith('__reactInternalInstance$'))
+      const reactKey = Object.keys(formEle).find(key =>
+        key.startsWith('__reactInternalInstance$')
+      )
       if (reactKey) {
-        return (formEle as { [prop: string]: any })[reactKey]._currentElement._owner._instance
+        return (formEle as { [prop: string]: any })[reactKey]._currentElement
+          ._owner._instance
       }
     }
   }
 
   type TMethods = {
-    [method: string]: ((type: TType, ...args: any[]) => any | Promise<any>) | undefined
+    [method: string]:
+      | ((type: TType, ...args: any[]) => any | Promise<any>)
+      | undefined
   }
 
   const methods: TMethods = {
@@ -98,7 +103,11 @@ window.addEventListener('message', function(event) {
   }
 })
 
-export default function(method: string, type: string, ...params: any[]) {
+export default function(
+  method: string,
+  type: string,
+  ...params: any[]
+): Promise<string> {
   return new Promise(resolve => {
     const msgId = type + '-' + seed++
 
