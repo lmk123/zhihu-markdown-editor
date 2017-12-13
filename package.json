@@ -1,39 +1,41 @@
 {
-  "browserslist": ["chrome >= 41"],
+  "browserslist": [
+    "chrome >= 41"
+  ],
   "private": true,
   "scripts": {
     "start": "webpack --watch --config build/webpack.dev.config.js",
     "build": "npm run lint && webpack --config build/webpack.prod.config.js",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "lint": "tslint -p tsconfig.json -c tslint.json -t verbose",
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "@types/marked": "^0.3.0",
     "@types/to-markdown": "^3.0.0",
-    "marked": "^0.3.6",
-    "tinymde": "^0.1.2",
-    "to-markdown": "^3.1.0",
-    "tslib": "^1.8.0"
+    "marked": "^0.3.7",
+    "tinymde": "^0.2.0",
+    "to-markdown": "^3.1.1",
+    "tslib": "^1.8.1"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.6",
-    "awesome-typescript-loader": "^3.3.0",
+    "autoprefixer": "^7.2.2",
+    "awesome-typescript-loader": "^3.4.1",
     "clean-webpack-plugin": "^0.1.16",
-    "copy-webpack-plugin": "^4.2.0",
+    "copy-webpack-plugin": "^4.2.3",
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
     "html-webpack-plugin": "^2.28.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
-    "postcss-loader": "^2.0.8",
+    "postcss-loader": "^2.0.9",
     "style-loader": "^0.19.0",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
-    "tslint-config-standard": "^6.0.1",
-    "typescript": "^2.6.1",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.6.2",
     "uglify-js": "^2.8.29",
     "url-loader": "^0.6.2",
-    "webpack": "^3.8.1",
+    "webpack": "^3.10.0",
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-merge": "^4.1.1"
   }
