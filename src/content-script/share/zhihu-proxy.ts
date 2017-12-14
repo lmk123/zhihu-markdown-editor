@@ -80,7 +80,9 @@ inj(() => {
             '*'
           )
         },
-        function() {}
+        err => {
+          console.error(err)
+        }
       )
     }
   })

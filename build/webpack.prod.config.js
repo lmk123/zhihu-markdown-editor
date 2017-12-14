@@ -5,6 +5,7 @@ var config = require('./config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.config')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var Zip = require('zip-webpack-plugin')
 
 var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.sourceMap ? 'source-map' : false,
@@ -22,12 +23,16 @@ var webpackConfig = merge(baseWebpackConfig, {
         safe: true,
         map: config.build.sourceMap ? { inline: false } : false
       }
+    }),
+    new Zip({
+      filename: 'bundle'
     })
   ]
 })
 
 if (config.build.analyzer) {
-  var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  var BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+    .BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
