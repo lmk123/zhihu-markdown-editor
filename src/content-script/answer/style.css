@@ -1,3 +1,7 @@
+.AnswerForm .Dropzone.RichText {
+  display: none;
+}
+
 .AnswerForm .zhihu-md-tinymde {
   padding: 12px 20px;
   font-size: 15px;

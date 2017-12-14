@@ -1,8 +1,3 @@
-.AnswerForm .Dropzone.RichText,
-.QuestionAsk .Dropzone.RichText {
-  display: none;
-}
-
 .zhihu-md-tinymde {
   resize: none;
   outline: none;

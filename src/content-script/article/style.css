@@ -1,3 +1,7 @@
+.PostEditor .Dropzone.RichText {
+  display: none;
+}
+
 .PostEditor .zhihu-md-tinymde {
   font-size: 16px;
   min-height: 300px;
