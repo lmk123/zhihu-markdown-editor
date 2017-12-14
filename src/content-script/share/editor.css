@@ -1,4 +1,5 @@
-.Dropzone.RichText {
+.AnswerForm .Dropzone.RichText,
+.QuestionAsk .Dropzone.RichText {
   display: none;
 }
 
