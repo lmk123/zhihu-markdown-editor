@@ -92,7 +92,7 @@ export default class MarkDownEditor extends TinyMDE {
                 break
               case 2:
                 event.stopPropagation()
-                map['插入视频']()
+                map['上传视频']()
                 break
             }
           }
