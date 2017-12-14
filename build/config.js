@@ -6,15 +6,9 @@ module.exports = {
     assetsRoot: 'dist',
     publicPath: '',
     sourceMap: false,
-    env: {
-      NODE_ENV: '"production"'
-    },
     analyzer: true
   },
   dev: {
-    sourceMap: true,
-    env: {
-      NODE_ENV: '"development"'
-    }
+    sourceMap: true
   }
 }

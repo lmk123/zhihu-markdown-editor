@@ -4,10 +4,5 @@ var merge = require('webpack-merge')
 var config = require('./config')
 
 module.exports = merge(webpackBaseConfig, {
-  devtool: config.dev.sourceMap ? 'inline-source-map' : false,
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': config.dev.env
-    })
-  ]
+  devtool: config.dev.sourceMap ? 'inline-source-map' : false
 })

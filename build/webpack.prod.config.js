@@ -9,11 +9,6 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.sourceMap ? 'source-map' : false,
   plugins: [
-    new webpack.HashedModuleIdsPlugin(),
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    new webpack.DefinePlugin({
-      'process.env': config.build.env
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
