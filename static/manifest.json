@@ -2,7 +2,7 @@
   "name": "知乎 Markdown 编辑器",
   "description": "让你可以使用 Markdown 语法撰写你的知乎问题和答案。",
   "manifest_version": 2,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "permissions": [
     "https://www.zhihu.com/*",
     "https://zhuanlan.zhihu.com/*",
