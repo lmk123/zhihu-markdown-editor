@@ -36,7 +36,7 @@ export default class MarkDownEditor extends TinyMDE {
       无序列表: () => this.ul(),
       插入链接: () => this.link(),
       上传图片: notSupportYet,
-      插入视频: notSupportYet,
+      上传视频: notSupportYet,
       插入公式: notSupportYet,
       插入分割线: () => this.hr(),
       清除格式: notSupportYet,

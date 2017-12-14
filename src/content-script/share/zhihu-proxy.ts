@@ -1,4 +1,3 @@
-import noop from '../share/noop'
 import inj from './inject-script'
 
 inj(() => {
@@ -70,16 +69,19 @@ inj(() => {
 
     const func = methods[data.method]
     if (func) {
-      Promise.resolve(func(data.type, ...data.params)).then(result => {
-        window.postMessage(
-          {
-            from: 'proxy',
-            id: data.id,
-            result
-          },
-          '*'
-        )
-      }, noop)
+      Promise.resolve(func(data.type, ...data.params)).then(
+        result => {
+          window.postMessage(
+            {
+              from: 'proxy',
+              id: data.id,
+              result
+            },
+            '*'
+          )
+        },
+        function() {}
+      )
     }
   })
 })
