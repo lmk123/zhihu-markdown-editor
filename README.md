@@ -1,10 +1,10 @@
-# 知乎 Markdown 编辑器
+# 知乎 Markdown 编辑器 [![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/cnmicighccicadglkflglibfaikhbobp.svg?style=flat-square)](https://chrome.google.com/webstore/detail/cnmicighccicadglkflglibfaikhbobp)
 
 一款能让你用 Markdown 语法编写知乎问题和答案的 Chrome 扩展程序。
 
 ## 安装
 
-- 在 Chrome 网上应用店在线安装（需科学上网）
+- [在 Chrome 网上应用店在线安装](https://chrome.google.com/webstore/detail/cnmicighccicadglkflglibfaikhbobp)（需科学上网）
 - [下载离线安装包](https://github.com/lmk123/zhihu-markdown-editor/releases/latest)
 
 ## 简介
