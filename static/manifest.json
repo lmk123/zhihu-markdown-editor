@@ -1,5 +1,5 @@
 ﻿{
-  "name": "知乎.md",
+  "name": "知乎 Markdown 编辑器",
   "description": "让你可以使用 Markdown 语法撰写你的知乎问题和答案。",
   "manifest_version": 2,
   "version": "0.0.0",

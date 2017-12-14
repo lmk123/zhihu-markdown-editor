@@ -14,7 +14,7 @@ export default function() {
   let initMDE = () => {
     initMDE = noop
     mde = new MDE(type, () => {
-      zhihuProxy('saveDraft', type, md2html(textarea.value))
+      zhihuProxy('saveDraft', type, md2html(textarea.value)).then(noop, noop)
       const hiddenFooter = document.querySelector('.AnswerForm-footer--hidden')
       if (hiddenFooter) {
         hiddenFooter.classList.remove('AnswerForm-footer--hidden')
@@ -37,7 +37,7 @@ export default function() {
           zhihuProxy('hackDraft', type, md2html(textarea.value)).then(() => {
             event.__pass = true
             target.dispatchEvent(event)
-          })
+          }, noop)
         }
       },
       true
@@ -52,12 +52,12 @@ export default function() {
     zhihuProxy('getDraft', type).then((draft: string) => {
       if (draft) {
         textarea.value = html2md(draft)
-        // todo 需要一个 clearState 方法
+        // TODO: 需要一个 clearState 方法
         mde.saveState()
       }
       textarea.focus()
       mde.resize()
-    })
+    }, noop)
 
     container.appendChild(textarea)
   })

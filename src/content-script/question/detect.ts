@@ -1,3 +1,4 @@
+import noop from '../share/noop'
 import testElement from '../share/test-element'
 
 const editorContainer = '.QuestionAsk-DetailSection .Input.Editable'
@@ -10,7 +11,7 @@ export default function(onEditorShow: (container: Element) => void) {
     if (editOrAsk) {
       testElement(editorContainer).then(el => {
         onEditorShow(el)
-      })
+      }, noop)
     }
   })
 }

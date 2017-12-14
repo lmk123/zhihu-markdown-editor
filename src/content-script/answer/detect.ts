@@ -1,4 +1,4 @@
-// 检测知乎问答的编辑器
+import noop from '../share/noop'
 import testElement from '../share/test-element'
 
 const editorContainer = '.AnswerForm-editor .Input.Editable'
@@ -25,7 +25,7 @@ export default function(
     if (editLink) {
       testElement(editorContainer).then(container => {
         onEditorShow(container, true)
-      })
+      }, noop)
     }
   })
 
@@ -34,7 +34,7 @@ export default function(
   if (answerRoot) {
     testElement(editorContainer, answerRoot).then(container => {
       onEditorShow(container, false)
-    })
+    }, noop)
   } else {
     // 等待用户点击「写回答」按钮，点击之后判断出现的是已回答的提示还是编辑器
     const writeAnswer = document.querySelector(
@@ -48,7 +48,8 @@ export default function(
               if (el.matches(editorContainer)) {
                 onEditorShow(el as HTMLDivElement, false)
               }
-            }
+            },
+            noop
           )
         }, 0)
       })

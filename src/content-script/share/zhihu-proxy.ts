@@ -1,3 +1,4 @@
+import noop from '../share/noop'
 import inj from './inject-script'
 
 inj(() => {
@@ -78,7 +79,7 @@ inj(() => {
           },
           '*'
         )
-      })
+      }, noop)
     }
   })
 })

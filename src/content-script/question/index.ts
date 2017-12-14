@@ -31,7 +31,7 @@ export default function() {
           zhihuProxy('hackDraft', type, md2html(textarea.value)).then(() => {
             event.__pass = true
             target.dispatchEvent(event)
-          })
+          }, noop)
         }
       },
       true
@@ -51,7 +51,7 @@ export default function() {
       }
       textarea.focus()
       mde.resize()
-    })
+    }, noop)
 
     container.appendChild(textarea)
   })
