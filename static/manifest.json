@@ -11,13 +11,13 @@
   "content_scripts": [
     {
       "matches": ["https://www.zhihu.com/*"],
-      "css": ["qa.css"],
-      "js": ["js/qa.js"]
+      "css": ["commons.css", "qa.css"],
+      "js": ["js/commons.js", "js/qa.js"]
     },
     {
       "matches": ["https://zhuanlan.zhihu.com/*"],
-      "css": ["article.css"],
-      "js": ["js/article.js"]
+      "css": ["commons.css", "article.css"],
+      "js": ["js/commons.js", "js/article.js"]
     }
   ],
   "minimum_chrome_version": "41"

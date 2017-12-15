@@ -8,7 +8,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   entry: {
     qa: './src/content-script/qa/index.ts',
-    // TODO: 改进配置，让 content 和 article 共享部分代码
     article: './src/content-script/article/index.ts'
   },
   output: {
@@ -64,6 +63,9 @@ module.exports = {
       // 如果不加下面这一行会报错
       // https://github.com/webpack/webpack/issues/959#issuecomment-276685210
       allChunks: true
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons'
     })
   ]
 }

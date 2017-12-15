@@ -1,3 +1,4 @@
+import noop from '../share/noop'
 import testElement from '../share/test-element'
 
 const editorContainer = '.Input.Editable'
@@ -25,7 +26,7 @@ export default function (onEditorShow: (container: Element) => void) {
     if (pathname === '/write' || editPostReg.test(pathname)) {
       testElement(editorContainer).then(el => {
         onEditorShow(el)
-      })
+      }, noop)
     }
   }
 }

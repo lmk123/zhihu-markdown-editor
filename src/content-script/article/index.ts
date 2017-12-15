@@ -15,8 +15,8 @@ let initMDE = () => {
   mde = new MDE(type, () => {
     const draft = md2html(textarea.value)
     zhihuProxy('saveDraft', type, draft).then(() => {
-      zhihuProxy('hackDraft', type, draft)
-    })
+      zhihuProxy('hackDraft', type, draft).then(noop, noop)
+    }, noop)
   })
   textarea = mde.textarea
 }
@@ -32,7 +32,7 @@ detect(container => {
     }
     textarea.focus()
     mde.resize()
-  })
+  }, noop)
 
   container.appendChild(textarea)
 })
