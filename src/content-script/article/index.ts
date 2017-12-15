@@ -13,12 +13,15 @@ let textarea: HTMLTextAreaElement
 let initMDE = () => {
   initMDE = noop
   mde = new MDE(type, () => {
-    zhihuProxy('saveDraft', type, md2html(textarea.value))
+    const draft = md2html(textarea.value)
+    zhihuProxy('saveDraft', type, draft).then(() => {
+      zhihuProxy('hackDraft', type, draft)
+    })
   })
   textarea = mde.textarea
 }
 
-detect((container) => {
+detect(container => {
   initMDE()
 
   textarea.placeholder = '请输入正文'

@@ -3,7 +3,8 @@ import inj from './inject-script'
 inj(() => {
   const formMap = {
     answer: 'form.AnswerForm',
-    question: '.QuestionAsk form'
+    question: '.QuestionAsk form',
+    article: '.Layout-main.av-card > div:last-child'
   }
 
   type TType = keyof typeof formMap
@@ -21,6 +22,11 @@ inj(() => {
     }
   }
 
+  function getArticleId() {
+    const match = location.pathname.match(/^\/p\/(\d+)(\/edit)?$/)
+    return match && match[1]
+  }
+
   type TMethods = {
     [method: string]:
       | ((type: TType, ...args: any[]) => any | Promise<any>)
@@ -36,7 +42,7 @@ inj(() => {
         } else if (type === 'question') {
           return instance.props.detail
         } else if (type === 'article') {
-          return instance.props.defaultValue || instance.toHTML()
+          return instance.props.content
         }
       }
     },
@@ -44,13 +50,17 @@ inj(() => {
     hackDraft(type: TType, draft: string) {
       const instance = getInstance(type)
       if (instance) {
-        const returnDraft = function() {
-          return draft
-        }
-        if (type === 'answer') {
-          instance.editable.toHTML = returnDraft
-        } else if (type === 'question') {
-          instance.state.detail.toHTML = returnDraft
+        if (type === 'article') {
+          instance.state.content = draft
+        } else {
+          const returnDraft = function() {
+            return draft
+          }
+          if (type === 'answer') {
+            instance.editable.toHTML = returnDraft
+          } else if (type === 'question') {
+            instance.state.detail.toHTML = returnDraft
+          }
         }
       }
     },
@@ -58,11 +68,15 @@ inj(() => {
     saveDraft(type: TType, draft: string) {
       const instance = getInstance(type)
       if (instance) {
-        instance.updateDraft(draft)
+        if (type === 'article') {
+          instance.props.updateDraft(getArticleId(), { content: draft })
+        } else {
+          instance.updateDraft(draft)
+        }
       }
     },
 
-    replaceURL (type: string, url: string) {
+    replaceURL(type: string, url: string) {
       window.history.replaceState({}, '', url)
     }
   }
