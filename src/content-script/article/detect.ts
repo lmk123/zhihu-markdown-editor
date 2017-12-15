@@ -1,27 +1,43 @@
 import noop from '../utils/noop'
 import testElement from '../utils/test-element'
+import inj from '../utils/inject-script'
+
+inj(() => {
+  function send() {
+    setTimeout(() => {
+      window.postMessage(
+        {
+          from: 'article'
+        },
+        '*'
+      )
+    }, 0)
+  }
+  const { replaceState, pushState } = history
+  history.replaceState = function(...args: any[]) {
+    send()
+    return replaceState.apply(this, args)
+  }
+  history.pushState = function(...args: any[]) {
+    send()
+    return pushState.apply(this, args)
+  }
+})
 
 const editorContainer = '.Input.Editable'
 const editPostReg = /^\/p\/\d+\/edit$/
 
-export default function (onEditorShow: (container: Element) => void) {
-  // TODO: 这段代码不能在内容脚本里 hack，无效
-  const { pushState, replaceState } = window.history
-
-  window.history.pushState = function () {
-    pushState.apply(this, arguments)
+export default function(onEditorShow: (container: Element) => void) {
+  window.addEventListener('message', event => {
+    if (event.source !== window) return
+    const { data } = event
+    if (!data || data.from !== 'article') return
     detect()
-  }
-
-  window.history.replaceState = function () {
-    replaceState.apply(this, arguments)
-    detect()
-  }
+  })
 
   detect()
 
-  function detect () {
-    console.log('detect')
+  function detect() {
     const { pathname } = window.location
     if (pathname === '/write' || editPostReg.test(pathname)) {
       testElement(editorContainer).then(el => {

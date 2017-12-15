@@ -19,7 +19,7 @@ export default class MarkDownEditor extends TinyMDE {
   constructor(type: TEditType, onSave = noop) {
     const textarea = document.createElement('textarea')
     textarea.className = 'zhihu-md-tinymde'
-    super(textarea, { onSave })
+    super(textarea, { onSave, saveDelay: 2000 })
     this.textarea = textarea
 
     // 输入时自动撑高 textarea 的高度
