@@ -11,8 +11,8 @@
   "content_scripts": [
     {
       "matches": ["https://www.zhihu.com/*"],
-      "css": ["content.css"],
-      "js": ["js/content.js"]
+      "css": ["qa.css"],
+      "js": ["js/qa.js"]
     },
     {
       "matches": ["https://zhuanlan.zhihu.com/*"],

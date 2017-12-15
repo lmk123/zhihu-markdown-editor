@@ -7,7 +7,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
-    content: './src/content-script/index.ts',
+    qa: './src/content-script/qa/index.ts',
     // TODO: 改进配置，让 content 和 article 共享部分代码
     article: './src/content-script/article/index.ts'
   },

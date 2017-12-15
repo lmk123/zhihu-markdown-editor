@@ -1,32 +1,38 @@
-import zhihuProxy from '../share/zhihu-proxy'
-import noop from '../share/noop'
-import MDE from '../share/MarkDownEditor'
-import html2md from '../share/html2md'
-import md2html from '../share/md2html'
+import zhihuProxy from '../../share/zhihu-proxy'
+import noop from '../../share/noop'
+import MDE from '../../share/MarkDownEditor'
+import html2md from '../../share/html2md'
+import md2html from '../../share/md2html'
 import detect from './detect'
 import './style.css'
 
 export default function() {
-  const type = 'question'
+  const type = 'answer'
   let mde: MDE
   let textarea: HTMLTextAreaElement
 
   let initMDE = () => {
     initMDE = noop
-    mde = new MDE(type)
+    mde = new MDE(type, () => {
+      zhihuProxy('saveDraft', type, md2html(textarea.value)).then(noop, noop)
+      const hiddenFooter = document.querySelector('.AnswerForm-footer--hidden')
+      if (hiddenFooter) {
+        hiddenFooter.classList.remove('AnswerForm-footer--hidden')
+      }
+    })
     textarea = mde.textarea
 
     interface ICustomMouseEvent extends MouseEvent {
       __pass?: boolean
     }
 
-    // 拦截问题提交
+    // 拦截答案提交
     document.addEventListener(
       'click',
       (event: ICustomMouseEvent) => {
         if (event.__pass) return
         const target = event.target as HTMLElement
-        if (target.matches('.QuestionAsk .ModalButtonGroup .Button--primary')) {
+        if (target.matches('.AnswerForm-submit')) {
           event.stopPropagation()
           zhihuProxy('hackDraft', type, md2html(textarea.value)).then(() => {
             event.__pass = true
@@ -38,15 +44,15 @@ export default function() {
     )
   }
 
-  detect(container => {
+  detect((container, isAnswered) => {
     initMDE()
 
-    textarea.placeholder = '问题背景、条件等详细信息'
+    textarea.placeholder = isAnswered ? '修改回答...' : '写回答...'
 
     zhihuProxy('getDraft', type).then((draft: string) => {
       if (draft) {
         textarea.value = html2md(draft)
-        // todo 需要一个 clearState 方法
+        // TODO: 需要一个 clearState 方法
         mde.saveState()
       }
       textarea.focus()
