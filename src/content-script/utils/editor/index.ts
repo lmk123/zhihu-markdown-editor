@@ -1,7 +1,7 @@
 import './editor.css'
 import TinyMDE from 'tinymde'
 import hotkey from './hotkey'
-import noop from './noop'
+import noop from '../noop'
 
 const toolbarPrefixes: { [type: string]: string | undefined } = {
   question: '.QuestionAsk-DetailSection',

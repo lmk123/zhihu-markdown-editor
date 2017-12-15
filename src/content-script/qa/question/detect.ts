@@ -1,5 +1,5 @@
-import noop from '../../share/noop'
-import testElement from '../../share/test-element'
+import noop from '../../utils/noop'
+import testElement from '../../utils/test-element'
 
 const editorContainer = '.QuestionAsk-DetailSection .Input.Editable'
 

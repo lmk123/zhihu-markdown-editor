@@ -1,8 +1,8 @@
-import zhihuProxy from '../../share/zhihu-proxy'
-import noop from '../../share/noop'
-import MDE from '../../share/MarkDownEditor'
-import html2md from '../../share/html2md'
-import md2html from '../../share/md2html'
+import zhihuProxy from '../../utils/zhihu-proxy'
+import noop from '../../utils/noop'
+import MDE from '../../utils/editor'
+import html2md from '../../utils/html2md'
+import md2html from '../../utils/md2html'
 import detect from './detect'
 import './style.css'
 
